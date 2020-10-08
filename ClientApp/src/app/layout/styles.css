@@ -1,0 +1,80 @@
+body {
+  background-color: rgb(234, 234, 234);
+}
+
+.header.item {
+  font-size: 25px;
+}
+
+.ui.inverted.top.fixed.menu {
+  background-image: linear-gradient(
+    135deg,
+    rgb(24, 42, 115) 0%,
+    rgb(33, 138, 174) 69%,
+    rgb(32, 167, 172) 89%
+  );
+}
+
+.ui.small.scrolling.modal.transition.visible.active {
+  margin-left: 30%;
+}
+
+.ui.container {
+  margin-top: 7em;
+}
+
+.Collapsible__contentInner {
+  padding: 10px;
+  border: 1px solid;
+  border-top: 0;
+}
+
+.Collapsible__trigger {
+  display: block;
+  font-weight: 400;
+  text-decoration: none;
+  color: grey;
+  position: relative;
+  border: 1px solid white;
+  padding: 10px;
+  background: rgb(82, 111, 206);
+  color: white;
+  height: 2.5em;
+  line-height: 1.6em;
+  font-size: 1.5em;
+}
+
+.item .header {
+  display: inline-block;
+  font-size: 1.2em;
+  border-bottom: 1px solid black;
+}
+
+.Collapsible__trigger::after {
+  font-family: "FontAwesome";
+  content: "\f107";
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: block;
+  transition: transform 300ms;
+  font-size: 2em;
+}
+
+.is-open::after {
+  transform: rotateZ(180deg);
+}
+
+.is-disabled {
+  opacity: 0.5;
+  background-color: grey;
+}
+
+.deviceInfo {
+  height: 1.5em;
+  font-size: 1.5em;
+  border: 1px solid black;
+  background-color: aquamarine;
+  margin: 0.5em;
+  line-height: normal;
+}
