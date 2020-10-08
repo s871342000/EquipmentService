@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/EquipmentService/static/css/main.a88d3412.chunk.css",
+    "main.js": "/EquipmentService/static/js/main.330ad28e.chunk.js",
+    "main.js.map": "/EquipmentService/static/js/main.330ad28e.chunk.js.map",
+    "runtime-main.js": "/EquipmentService/static/js/runtime-main.c079a21b.js",
+    "runtime-main.js.map": "/EquipmentService/static/js/runtime-main.c079a21b.js.map",
+    "static/css/2.970894ce.chunk.css": "/EquipmentService/static/css/2.970894ce.chunk.css",
+    "static/js/2.cb463a22.chunk.js": "/EquipmentService/static/js/2.cb463a22.chunk.js",
+    "static/js/2.cb463a22.chunk.js.map": "/EquipmentService/static/js/2.cb463a22.chunk.js.map",
+    "index.html": "/EquipmentService/index.html",
+    "precache-manifest.db154fb7bd3a6289971d2cd28ca223ed.js": "/EquipmentService/precache-manifest.db154fb7bd3a6289971d2cd28ca223ed.js",
+    "service-worker.js": "/EquipmentService/service-worker.js",
+    "static/css/2.970894ce.chunk.css.map": "/EquipmentService/static/css/2.970894ce.chunk.css.map",
+    "static/css/main.a88d3412.chunk.css.map": "/EquipmentService/static/css/main.a88d3412.chunk.css.map",
+    "static/js/2.cb463a22.chunk.js.LICENSE.txt": "/EquipmentService/static/js/2.cb463a22.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/EquipmentService/static/media/outline-icons.ef60a4f6.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c079a21b.js",
+    "static/css/2.970894ce.chunk.css",
+    "static/js/2.cb463a22.chunk.js",
+    "static/css/main.a88d3412.chunk.css",
+    "static/js/main.330ad28e.chunk.js"
+  ]
+}
