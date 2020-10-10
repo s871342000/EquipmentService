@@ -10,10 +10,10 @@ import {
 
 export const DeviceDetail = () => {
   return (
-    <Segment style={{ overflow: "scroll", maxHeight: "80%" }}>
+    <Segment>
       <Form>
-        <Form.Field>
-          <Label size="huge">客戶名稱</Label>
+        <Form.Field inline>
+          <Label >客戶名稱</Label>
           <Input type="text" placeholder="請輸入客戶名稱" />
         </Form.Field>
         <Divider />
@@ -21,6 +21,8 @@ export const DeviceDetail = () => {
         <Form.Field inline>
           <Label>購買日期</Label>
           <Input type="date" />
+        </Form.Field>
+        <Form.Field inline>
           <Label>機型</Label>
           <Input type="text" placeholder="請輸入機型" />
           <Label>型號</Label>
@@ -29,21 +31,21 @@ export const DeviceDetail = () => {
         <Divider />
 
         <Form.Field>
-          <Label size="huge">維護模式</Label>
+          <Label >維護模式</Label>
         </Form.Field>
         <Form.Field inline>
           <Label>保固</Label>
-          <Input type="date" />
+          <Input type="date" />{"\t~\t"} 
           <Input type="date" />
         </Form.Field>
         <Form.Field inline>
           <Label>租賃</Label>
-          <Input type="date" />
+          <Input type="date" />{"\t~\t"}
           <Input type="date" />
         </Form.Field>
         <Form.Field inline>
           <Label>保養</Label>
-          <Input type="date" />
+          <Input type="date" />{"\t~\t"}
           <Input type="date" />
         </Form.Field>
         <Divider />

@@ -3,7 +3,7 @@ import Collapsible from "react-collapsible";
 import { Container } from "semantic-ui-react";
 import { DeviceInfo } from "./DeviceInfo";
 
-export const Items = () => {
+export const Costumers = () => {
   return (
     <Container>
       <Collapsible overflowWhenOpen="scroll" trigger="客戶A">
@@ -15,6 +15,11 @@ export const Items = () => {
         <DeviceInfo />
       </Collapsible>
       <Collapsible trigger="客戶B">
+        <DeviceInfo />
+        <DeviceInfo />
+      </Collapsible>
+      <Collapsible trigger="客戶C">
+        <DeviceInfo />
         <DeviceInfo />
         <DeviceInfo />
       </Collapsible>

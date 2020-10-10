@@ -7,15 +7,16 @@ export const DeviceInfo = () => {
   const model = "RL-750s";
 
   const [state, setState] = useState(false);
+  let deviceInfo = `序號: ${sn}\t機型: ${model}`;
 
   return (
     <Fragment>
       <div className="deviceInfo" onClick={() => setState(true)}>
-        {`序號: ${sn}\t機型: ${model}`}
+        {deviceInfo}
       </div>
       <Confirm
         open={state}
-        header="裝置資訊"
+        header={deviceInfo}
         content={<DeviceDetail />}
         onCancel={() => setState(false)}
         onConfirm={() => setState(false)}

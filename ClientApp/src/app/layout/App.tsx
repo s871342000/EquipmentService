@@ -1,13 +1,28 @@
 import React, { Component, Fragment } from "react";
-import { Items } from "../../features/Items";
+import { Costumers } from "../../features/Customers";
+import { Login } from "../../features/Login";
 import NavBar from "../../features/nav/NavBar";
 
 export default class App extends Component {
+  // constructor(props: any){
+  //   super(props);
+  //   this.state = {
+  //     login: false
+  //   }
+  // }
+
+  // setLogin(){
+  //   this.setState({
+  //     login: true
+  //   })
+  // }
+
   render() {
     return (
       <Fragment>
         <NavBar />
-        <Items />
+        <Costumers />
+        {/* <Login setLogin={this.state.login = {this.state.setLogin(this.state.login)}}/> */}
       </Fragment>
     );
   }

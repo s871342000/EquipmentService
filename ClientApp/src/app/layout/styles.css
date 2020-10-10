@@ -16,7 +16,23 @@ body {
 }
 
 .ui.small.scrolling.modal.transition.visible.active {
-  margin-left: 30%;
+  width: 800px;
+  overflow: scroll;
+  left: 50%;
+  margin-left: -400px;
+}
+
+.ui.small.scrolling.modal.transition.visible.active .header {
+  font-size: x-large;
+}
+
+.ui.small.scrolling.modal.transition.visible.active .ui.label {
+  font-size: medium;
+  margin: 1px 4px;
+}
+
+.ui.small.scrolling.modal.transition.visible.active .ui.input {
+  margin: 2px 4px;
 }
 
 .ui.container {
@@ -42,6 +58,7 @@ body {
   height: 2.5em;
   line-height: 1.6em;
   font-size: 1.5em;
+  cursor: pointer;
 }
 
 .item .header {
@@ -51,14 +68,14 @@ body {
 }
 
 .Collapsible__trigger::after {
-  font-family: "FontAwesome";
+  font-family: "Font Awesome 5 Free";
   content: "\f107";
+  font-weight: 900;
   position: absolute;
   right: 10px;
   top: 10px;
   display: block;
   transition: transform 300ms;
-  font-size: 2em;
 }
 
 .is-open::after {
@@ -77,4 +94,14 @@ body {
   background-color: aquamarine;
   margin: 0.5em;
   line-height: normal;
+  cursor: pointer;
+}
+
+.ui.modal.login {
+  width: 400px;
+  height: 260px;
+  top: 50%;
+  left: 50%;
+  margin-left: -250px;
+  margin-top: -130px;
 }
