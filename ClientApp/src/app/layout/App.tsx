@@ -5,11 +5,12 @@ import Device from "../../features/DeviceDetail"
 
 export default class App extends Component {
   render() {
-    return (//{ Home }
-      <Router>
-        <Route exact path="/" component={Home} />
-        <Route path="/DeviceDetail" component={Device} />
-      </Router>
+    return (
+      <Home />
+      // <Router>
+      //   <Route exact path="/" component={Home} />
+      //   <Route path="/DeviceDetail" component={Device} />
+      // </Router>
     );
   }
 }
