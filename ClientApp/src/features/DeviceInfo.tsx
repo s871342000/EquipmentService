@@ -17,7 +17,7 @@ export const DeviceInfo = (props: { login: boolean }) => {
   let getHost = () => {
     if (typeof window !== 'undefined') {
       qrcodeUrl = window.location.protocol + '//' + window.location.host;
-      qrcodeUrl += "//DeviceDetail";
+      qrcodeUrl += "//EquipmentService//DeviceDetail";
     }
   }
 
