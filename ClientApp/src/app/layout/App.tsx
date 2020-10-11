@@ -5,8 +5,7 @@ import Device from "../../features/DeviceDetail"
 
 export default class App extends Component {
   render() {
-    Home
-    return (
+    return ({ Home }
       /*<Router>
         <Route exact path="/" component={Home} />
         <Route path="/DeviceDetail" component={Device} />
