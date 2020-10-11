@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Divider,
   Form,
@@ -7,8 +7,9 @@ import {
   Segment,
   TextArea,
 } from "semantic-ui-react";
+import NavBar from "./nav/NavBar";
 
-export const DeviceDetail = (props:{login:boolean}) => {
+export const DeviceDetail = (props: { login: boolean }) => {
   return (
     <Segment>
       <Form>
@@ -35,7 +36,7 @@ export const DeviceDetail = (props:{login:boolean}) => {
         </Form.Field>
         <Form.Field inline>
           <Label>保固</Label>
-          <Input disabled={!props.login} type="date" />{"\t~\t"} 
+          <Input disabled={!props.login} type="date" />{"\t~\t"}
           <Input disabled={!props.login} type="date" />
         </Form.Field>
         <Form.Field inline>
