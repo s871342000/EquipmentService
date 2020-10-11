@@ -3,25 +3,18 @@ import Collapsible from "react-collapsible";
 import { Container } from "semantic-ui-react";
 import { DeviceInfo } from "./DeviceInfo";
 
-export const Costumers = () => {
+export const Costumers = (props: { login: boolean }) => {
   return (
     <Container>
       <Collapsible overflowWhenOpen="scroll" trigger="客戶A">
-        <DeviceInfo />
-        <DeviceInfo />
-        <DeviceInfo />
-        <DeviceInfo />
-        <DeviceInfo />
-        <DeviceInfo />
+        <DeviceInfo login={props.login} />
+        <DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} />
       </Collapsible>
       <Collapsible trigger="客戶B">
-        <DeviceInfo />
-        <DeviceInfo />
+        <DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} /><DeviceInfo login={props.login} />
       </Collapsible>
       <Collapsible trigger="客戶C">
-        <DeviceInfo />
-        <DeviceInfo />
-        <DeviceInfo />
+        <DeviceInfo login={props.login} /><DeviceInfo login={props.login} />
       </Collapsible>
     </Container>
   );

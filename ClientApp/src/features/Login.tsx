@@ -1,23 +1,55 @@
-import React, {SetStateAction} from 'react'
-import { Button, Form } from 'semantic-ui-react'
+import React, {Fragment, useState} from 'react'
+import { Button, Form, Segment } from 'semantic-ui-react'
+import { Costumers } from './Customers';
+import NavBar from './nav/NavBar';
 
-export const Login = (props:{setLogin:React.Dispatch<React.SetStateAction<boolean>>, setOpen:React.Dispatch<React.SetStateAction<boolean>>}) => {  
+export const Login = () => {  
+    const [uid, setUid] = useState("");
+    const [pwd, setPwd] = useState("");
+    const [login, setLogin] = useState(false);
+
+    let loginCheck = ()=>{
+      if(uid == "admin" && pwd == "admin")
+      {
+        return true;
+      }
+
+      return false;
+    }
+
     return (
-        <Form>
+      <Fragment>
+        <NavBar login={login} setLogin={value => setLogin(value)} />
+        {console.log(login)}
+        {login ? <Costumers login={login}/> :
+        // <Login setLogin={value => setLogin(value)}/> 
+        <Segment id="login">
+        <Form >
           <Form.Input
             icon='user'
             iconPosition='left'
-            label='Username'
+            label='帳號'
             placeholder='Username'
+            value={uid}
+            onChange={(event)=>setUid(event.target.value)}
           />
           <Form.Input
             icon='lock'
             iconPosition='left'
-            label='Password'
+            label='密碼'
             type='password'
+            value={pwd}
+            onChange={(event)=>setPwd(event.target.value)}
           />
 
-          <Button content='Login' primary onClick={() => {props.setLogin(true); props.setOpen(false);}}/>
+          <Button content="登入" primary onClick={() => {setLogin(loginCheck())}}/>
         </Form>
+        </Segment>
+        }
+        </Fragment>
+
+      
     )
 }
+
+export default Login;

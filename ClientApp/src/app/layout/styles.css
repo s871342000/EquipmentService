@@ -89,19 +89,35 @@ body {
 
 .deviceInfo {
   height: 1.5em;
+  width: 85%;
   font-size: 1.5em;
   border: 1px solid black;
   background-color: aquamarine;
   margin: 0.5em;
   line-height: normal;
   cursor: pointer;
+  display: inline-block;
 }
 
-.ui.modal.login {
-  width: 400px;
-  height: 260px;
-  top: 50%;
-  left: 50%;
-  margin-left: -250px;
-  margin-top: -130px;
+#login,
+.ui.modal {
+  position: absolute;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
+
+.ui.segment {
+  /* z-index: 101; */
+  /* position: fixed; */
+  height: 100%;
+  width: 100%;
+}
+
+/* .ui.disabled.input {
+  color: black;
+} */
