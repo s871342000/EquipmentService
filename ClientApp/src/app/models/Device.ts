@@ -1,6 +1,5 @@
 import { IRecord } from "./Record";
-export interface IDevice {
-  title: string;
+export interface IDeviceDetail {
   customer: string;
   model: string;
   sn: string;

@@ -3,7 +3,7 @@ body {
 }
 
 .header.item {
-  font-size: 25px;
+  font-size: 1.5em;
 }
 
 .ui.inverted.top.fixed.menu {
@@ -24,15 +24,6 @@ body {
 
 .ui.small.scrolling.modal.transition.visible.active .header {
   font-size: x-large;
-}
-
-.ui.small.scrolling.modal.transition.visible.active .ui.label {
-  font-size: medium;
-  margin: 1px 4px;
-}
-
-.ui.small.scrolling.modal.transition.visible.active .ui.input {
-  margin: 2px 4px;
 }
 
 .ui.container {
@@ -87,19 +78,14 @@ body {
   background-color: grey;
 }
 
-.deviceInfo {
-  height: 1.5em;
-  width: 85%;
+#deviceInfo {
+  width: 100vh;
   font-size: 1.5em;
   border: 1px solid black;
   background-color: aquamarine;
-  margin: 0.5em;
-  line-height: normal;
   cursor: pointer;
-  display: inline-block;
 }
 
-#login,
 .ui.modal {
   position: absolute;
   margin: auto;
@@ -110,14 +96,3 @@ body {
   bottom: 0;
   left: 0;
 }
-
-.ui.segment {
-  /* z-index: 101; */
-  /* position: fixed; */
-  height: 100%;
-  width: 100%;
-}
-
-/* .ui.disabled.input {
-  color: black;
-} */
