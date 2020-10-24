@@ -9,6 +9,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.3"/>
+    <PackageReference Include="MongoDB.Driver" Version="2.11.3"/>
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.49.0.2105"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9"/>
+    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0"/>
   </ItemGroup>
   <ItemGroup>
     <Content Remove="$(SpaRoot)**"/>
@@ -33,6 +37,9 @@
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </ResolvedFileToPublish>
+      <Content Include="google-credentials.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
   </Target>
 </Project>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Models.Structures;
+using Model;
+using System.Linq;
 
 namespace Controllers
 {
@@ -10,18 +12,151 @@ namespace Controllers
     [Route("[controller]")]
     public class DefaultController : ControllerBase
     {
-        private readonly ILogger<DefaultController> _logger;
+        private readonly DeviceService _deviceService;
 
-        public DefaultController(ILogger<DefaultController> logger)
+        public DefaultController(DeviceService service)
         {
-            _logger = logger;
+            _deviceService = service;
+        }
+
+        [HttpGet]
+        [Route("Customers")]
+        public List<Customers> Customers()
+        {
+            List<DeviceDetail> devices = _deviceService.Get();
+            
+            List<Customers> customers = (from d in devices
+                                        group d by d.Customer into g
+                                        select new Customers{
+                                            Name = g.Key,
+                                            Devices = g.Select(d => new Device{ SN = d.SN, Model = d.Model}).ToList()
+                                        }).ToList();
+
+            return customers;
+        }
+
+        [HttpGet]
+        [Route("DeviceDetail/{sn}")]
+        public ActionResult<DeviceDetail> DeviceDetail(string sn)
+        {
+            DeviceDetail device = _deviceService.GetBySn(sn);
+
+            if(device == null)
+            {
+                return NotFound();
+            }
+
+            return device;
+        }
+
+        [HttpGet]
+        [Route("AllDevices/{customer}")]
+        public List<ExportDevice> AllDevices(string customer)
+        {
+            List<DeviceDetail> devices = _deviceService.GetByCustomer(customer);
+
+            List<ExportDevice> export = new List<ExportDevice>();
+
+            foreach(var device in devices)
+            {
+                foreach(var rec in device.MaintenanceRecord)
+                {
+                    var query = export.Where(d => d.SN == device.SN && d.Date == rec.Date).FirstOrDefault();
+
+                    if(query == null)
+                    {
+                        export.Add(new ExportDevice{
+                            SN = device.SN,
+                            Model = device.Model,
+                            Version = device.Version,
+                            PurchaseDate = device.PurchaseDate,
+                            WarrantyStartDate = device.WarrantyStartDate,
+                            WarrantyEndDate = device.WarrantyEndDate,
+                            LeaseStartDate = device.LeaseStartDate,
+                            LeaseEndDate = device.LeaseEndDate,
+                            MaintenanceStartDate = device.MaintenanceStartDate,
+                            MaintenanceEndDate = device.MaintenanceEndDate,
+                            Date = rec.Date,
+                            MaintenanceItem = string.Join(",", rec.Items)
+                        });
+                    }
+                    else
+                    {
+                        query.Date = rec.Date;
+                        query.MaintenanceItem = string.Join(",", rec.Items);
+                    }
+                }
+
+                foreach(var rec in device.RepairRecord)
+                {
+                    var query = export.Where(d => d.SN == device.SN && d.Date == rec.Date).FirstOrDefault();
+
+                    if(query == null)
+                    {
+                        export.Add( new ExportDevice{
+                            SN = device.SN,
+                            Model = device.Model,
+                            Version = device.Version,
+                            PurchaseDate = device.PurchaseDate,
+                            WarrantyStartDate = device.WarrantyStartDate,
+                            WarrantyEndDate = device.WarrantyEndDate,
+                            LeaseStartDate = device.LeaseStartDate,
+                            LeaseEndDate = device.LeaseEndDate,
+                            MaintenanceStartDate = device.MaintenanceStartDate,
+                            MaintenanceEndDate = device.MaintenanceEndDate,
+                            Date = rec.Date,
+                            RepairComment = rec.Comment
+                        });
+                    }
+                    else
+                    {
+                        query.Date = rec.Date;
+                        query.RepairComment = rec.Comment;
+                    }
+                }
+
+                foreach(var rec in device.RevisionRecord)
+                {
+                    var query = export.Where(d => d.SN == device.SN && d.Date == rec.Date).FirstOrDefault();
+
+                    if(query == null)
+                    {
+                        export.Add( new ExportDevice{
+                            SN = device.SN,
+                            Model = device.Model,
+                            Version = device.Version,
+                            PurchaseDate = device.PurchaseDate,
+                            WarrantyStartDate = device.WarrantyStartDate,
+                            WarrantyEndDate = device.WarrantyEndDate,
+                            LeaseStartDate = device.LeaseStartDate,
+                            LeaseEndDate = device.LeaseEndDate,
+                            MaintenanceStartDate = device.MaintenanceStartDate,
+                            MaintenanceEndDate = device.MaintenanceEndDate,
+                            Date = rec.Date,
+                            RevisionVersion = rec.Version
+                        });
+                    }
+                    else
+                    {
+                        query.Date = rec.Date;
+                        query.RevisionVersion = rec.Version;
+                    }
+                }
+            }
+
+            
+
+            return export;
         }
 
         [HttpPost]
         [Route("Login")]
-        public bool Login([FromBody]UserInfo logInfo)
+        public bool Login([FromBody]UserInfo userInfo)
         {
-            if(logInfo.Uid == "admin" && logInfo.Pwd == "admin")
+            string uid = Crypto.Encrypto(userInfo.Uid);
+            string pwd = Crypto.Encrypto($"{userInfo.Uid}roy{userInfo.Pwd}");
+
+            if(userInfo.Uid == "admin" && userInfo.Pwd == "admin")
             {
                 return true;
             }
@@ -31,152 +166,55 @@ namespace Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Customers")]
-        public List<Customers> Customers()
+        [HttpPost]
+        [Route("Create/{uid}/{pwd}")]
+        public Status Create(string uid, string pwd, [FromBody]DeviceDetail data)
         {
-            return new List<Customers>{
-                new Customers{
-                    Name = "客戶A",
-                    Devices = new List<Device>{
-                        new Device{
-                            SN = "123",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "123",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "123",
-                            Model = "RL-750s"
-                        },
-                    }
-                },
-                new Customers{
-                    Name = "客戶B",
-                    Devices = new List<Device>{
-                        new Device{
-                            SN = "489",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "123",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "254",
-                            Model = "RL-750s"
-                        },
-                    }
-                },
-                new Customers{
-                    Name = "客戶C",
-                    Devices = new List<Device>{
-                        new Device{
-                            SN = "157",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "123",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "456",
-                            Model = "RL-750s"
-                        },
-                    }
-                },
-                new Customers{
-                    Name = "客戶D",
-                    Devices = new List<Device>{
-                        new Device{
-                            SN = "123",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "194",
-                            Model = "RL-750s"
-                        },
-                        new Device{
-                            SN = "123",
-                            Model = "RL-750s"
-                        },
-                    }
-                }
-            };
+            DeviceDetail _device = _deviceService.GetBySn(data.SN);
+
+            Status status = new Status();
+            if(_device == null)
+            {
+                _deviceService.Create(data);
+                status.Success = true;
+            }
+            else
+            {
+                status.Success = false;
+                status.Message = "機號已存在";
+            }
+
+            return status;
         }
 
-        [HttpGet]
-        [Route("DeviceDetail/{sn}")]
-        public DeviceDetail DeviceDetail(string sn)
+        [HttpPost]
+        [Route("Update/{uid}/{pwd}")]
+        public Status Update(string uid, string pwd, [FromBody]DeviceDetail data)
         {
-            DeviceDetail deviceDetail = new DeviceDetail();
+            DeviceDetail _device = _deviceService.GetBySn(data.SN);
+            data.Id = _device.Id;
 
-            if(sn == "123")
+            Status status = new Status();
+
+            try
             {
-                deviceDetail = new DeviceDetail{
-                    Customer = "客戶A",
-                    SN = "123456",
-                    Model = "RL-750s",
-                    Version = "12.2",
-                    PurchaseDate = DateTime.Now.Date.Date,
-                    WarrantyStartDate = DateTime.Now.Date,
-                    WarrantyEndDate = new DateTime(2021,1,1),
-                    LeaseStartDate = DateTime.Now.Date,
-                    LeaseEndDate = DateTime.Now.Date,
-                    MaintenanceStartDate = DateTime.Now.Date,
-                    MaintenanceEndDate = DateTime.Now.Date,
-                    MaintenanceRecord = new List<Maintenance>{
-                        new Maintenance{
-                            Date = DateTime.Now.Date
-                        },
-                        new Maintenance{
-                            Date = DateTime.Now.AddDays(-1).Date
-                        }
-                    },
-                    RepairRecord = new List<Repair>{
-                        new Repair{
-                            Date = DateTime.Now.Date,
-                            Comment = "保養"
-                        },
-                        new Repair{
-                            Date = DateTime.Now.Date,
-                            Comment = "測試"
-                        }
-                    },
-                    RevisionRecord = new List<Revision>{
-                        new Revision{
-                            Date = DateTime.Now.Date,
-                            Version = "50.4"
-                        },
-                        new Revision{
-                            Date = DateTime.Now.Date,
-                            Version = "30.4"
-                        }
-                    }
-                };
+                _deviceService.Update(data);
+                status.Success = true;
+            }
+            catch(Exception ex)
+            {
+                status.Success = false;
+                status.Message = ex.ToString();
             }
 
-            if(sn == "456")
-            {
-                deviceDetail = new DeviceDetail{
-                    Customer = "客戶D",
-                    SN = "999999",
-                    Model = "RL-750s",
-                    Version = "12.2",
-                    PurchaseDate = DateTime.Now.Date.Date,
-                    WarrantyStartDate = DateTime.Now.Date,
-                    WarrantyEndDate = DateTime.Now.Date,
-                    LeaseStartDate = DateTime.Now.Date,
-                    LeaseEndDate = DateTime.Now.Date,
-                    MaintenanceStartDate = DateTime.Now.Date,
-                    MaintenanceEndDate = DateTime.Now.Date
-                };
-            }
+            return status;
+        }
 
-
-            return deviceDetail;
+        [HttpDelete]
+        [Route("Delete/{uid}/{pwd}/{sn}")]
+        public void Delete(string uid, string pwd, string sn)
+        {
+            _deviceService.Remove(sn);
         }
     }
 }

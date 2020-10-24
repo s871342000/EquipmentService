@@ -1,24 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Button, Input, Modal } from "semantic-ui-react";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Button, Modal } from "semantic-ui-react";
 import { TargetUrl } from "../../models/DirectUrl";
+import { IUserInfo } from "../../redux/reducer";
 import { DeviceDetail } from "./DeviceDetail";
 
-export const DeviceInfo = (props: { login: boolean, sn: string, model: string }) => {
-  let deviceInfo = `機號: ${props.sn}\t機型: ${props.model}`;
+export const DeviceInfo = (props: { refresh: any; login: boolean, sn: string, model: string }) => {
+  let deviceInfo = `機號: ${props.sn}\t型號: ${props.model}`;
 
   const [open, setOpen] = useState(false);
   const [deviceInfoOpen, setdeviceInfoOpen] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
+  const deviceDetailRed = useRef<any>();
+
   let QRCode = require('qrcode.react');
 
-  useEffect(() => {
-    fetch(TargetUrl("Default", "DeviceDetail"), {
-      method: "POST",
+  const hanldeClick = async () => {
+    const success = await deviceDetailRed.current.doPost("Update");
+
+    if (success) {
+      setdeviceInfoOpen(false);
+      props.refresh.current.doRefresh();
+    }
+  }
+
+  const deleteRef = useRef<any>();
+  const userInfo = useSelector(s => s) as IUserInfo;
+
+  const deleteDevice = () => {
+    fetch(TargetUrl("Default", `Delete/${userInfo.uid}/${userInfo.pwd}/${props.sn}`), {
+      method: "DELETE",
       headers: new Headers({
         'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify({ Uid: "", Pwd: "" })
+      })
     }).then((response) => {
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -29,7 +44,17 @@ export const DeviceInfo = (props: { login: boolean, sn: string, model: string })
     }).catch((error) => {
       console.error(error);
     });
-  }, []);
+  }
+
+  const handleDelete = async () => {
+    if (deleteRef.current.value == "確定") {
+      await deleteDevice();
+    }
+
+    setShowDelete(false);
+    setdeviceInfoOpen(false);
+    props.refresh.current.doRefresh();
+  }
 
   return (
     <div className="container-fluid m-2">
@@ -53,7 +78,7 @@ export const DeviceInfo = (props: { login: boolean, sn: string, model: string })
             {deviceInfo}
           </Modal.Header>
           <Modal.Content>
-            {<DeviceDetail login={props.login} sn={props.sn} />}
+            {<DeviceDetail ref={deviceDetailRed} login={props.login} sn={props.sn} editable={true} />}
           </Modal.Content>
           <Modal.Actions>
             <Modal
@@ -65,18 +90,18 @@ export const DeviceInfo = (props: { login: boolean, sn: string, model: string })
               <Modal.Header>刪除</Modal.Header>
               <Modal.Content>
                 <label>請輸入<strong><span className="text-danger">確定</span></strong>確認刪除</label>
-                <Input className="ml-2" />
+                <input ref={deleteRef} className="ml-2" />
               </Modal.Content>
               <Modal.Actions>
                 <Button onClick={() => setShowDelete(false)}>取消</Button>
-                <Button primary onClick={() => setShowDelete(false)}>確定</Button>
+                <Button primary onClick={handleDelete}>確定</Button>
               </Modal.Actions>
             </Modal>
             <Button onClick={() => setdeviceInfoOpen(false)}>取消</Button>
-            <Button primary onClick={() => setdeviceInfoOpen(false)}>確定</Button>
+            <Button primary onClick={hanldeClick}>確定</Button>
           </Modal.Actions>
         </Modal>
       </div>
-    </div>
+    </div >
   );
 };

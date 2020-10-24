@@ -1,23 +1,36 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Segment, TextArea } from 'semantic-ui-react'
-import { ConvertDateToString } from '../Converter'
+import { ConvertDateToString } from '../../models/Converter'
 import InputGroup from '../InputGroup'
 
-const MaintenanceRecord = (props: { readonly: boolean, record?: { date: Date; items: [] } }) => {
-    const [text, setText] = useState("");
+interface IProps {
+    readonly: boolean,
+    record?: {
+        date: Date,
+        items: string[]
+    },
+    ref1: any,
+    setRecord?(obj: any): void
+}
+
+const MaintenanceRecord = (props: IProps) => {
+    const [date, setDate] = useState(props.record?.date);
+
+    useEffect(() => {
+        if (props.record) {
+            if (date) {
+                props.record.date = date;
+            }
+        }
+    }, [date]);
 
     return (
         <Segment>
-            <InputGroup prepend="日期" type="date" readonly={props.readonly} value1={ConvertDateToString(props.record?.date)} />
+            <InputGroup prepend="日期" type="date" readonly={props.readonly} value1={ConvertDateToString(date)} setValue1={setDate} ref1={props.ref1} />
             <TextArea
                 className="mt-3 w-100"
                 rows="5"
-                value={props.record?.items.join("\n")}
-                onChange={(e) => {
-                    if (props.readonly == false) {
-                        setText(e.target.value);
-                    }
-                }}
+                value={["清潔保養", "紅外校正", "機件調整", "功能測試"].join("\n")}
             />
         </Segment>
     )

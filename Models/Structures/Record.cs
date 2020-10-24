@@ -10,7 +10,7 @@ namespace Models.Structures
 
     public class Maintenance : Record
     {
-        public List<string> Items { get; set; } = new List<string>{ "清潔保養", "紅外校正", "機件調整", "功能測試" };
+        public List<string> Items { get; set; } 
     }
 
     public class Repair : Record

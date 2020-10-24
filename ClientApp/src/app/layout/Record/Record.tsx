@@ -1,13 +1,49 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useRef, useState } from 'react'
 import { Button, Modal } from 'semantic-ui-react'
 import RevisionRecord from './RevisionRecord';
 import MaintenanceRecord from './MaintenanceRecord';
-import { RecordType } from './RecordType';
+import { RecordType } from '../../models/RecordType';
 import RepairRecord from './RepairRecord';
+import { RSA_PKCS1_OAEP_PADDING } from 'constants';
+import { IMaintenance, IRepair, IRevision } from '../../interfaces/IDevice';
 
-const Record = (props: { header: string, type: RecordType, className: string, readonly: boolean, records: any }) => {
+interface IProps {
+    header: string,
+    type: RecordType,
+    className: string,
+    readonly: boolean,
+    records: any,
+    handleRecores: any,
+    ref1?: any,
+    ref2?: any,
+    setRecord(obj: any): void
+}
+
+const Record = (props: IProps) => {
     const [open, setOpen] = useState(false);
     const [newRecordOpen, setNewRecordOpen] = useState(false);
+
+    const getObj = () => {
+        let obj;
+        switch (props.type) {
+            case RecordType.Maintenance:
+                obj = { date: props.ref1.current.value, items: ["清潔保養", "紅外校正", "機件調整", "功能測試"] }
+                break;
+            case RecordType.Repair:
+                obj = { date: props.ref1.current.value, comment: props.ref2.current.value }
+                break;
+            case RecordType.Revision:
+                obj = { date: props.ref1.current.value, version: props.ref2.current.value }
+                break;
+        }
+
+        return obj;
+    }
+
+    const handleClick = () => {
+        setNewRecordOpen(false);
+        props.handleRecores(getObj());
+    }
 
     return (
         <Modal
@@ -28,7 +64,7 @@ const Record = (props: { header: string, type: RecordType, className: string, re
                                             <Fragment>
                                                 {
                                                     props.records.map((record: { comment: string; date: Date; }) =>
-                                                        <RepairRecord readonly={props.readonly} record={record} />
+                                                        <RepairRecord readonly={props.readonly} record={record} ref1={props.ref1} ref2={props.ref2} />
                                                     )
                                                 }
                                             </Fragment>
@@ -39,7 +75,7 @@ const Record = (props: { header: string, type: RecordType, className: string, re
                                             <Fragment>
                                                 {
                                                     props.records.map((record: { date: Date; version: string; }) =>
-                                                        <RevisionRecord readonly={props.readonly} record={record} />
+                                                        <RevisionRecord readonly={props.readonly} record={record} ref1={props.ref1} ref2={props.ref2} />
                                                     )
 
                                                 }
@@ -51,7 +87,7 @@ const Record = (props: { header: string, type: RecordType, className: string, re
                                             <Fragment>
                                                 {
                                                     props.records.map((record: { date: Date; items: [] }) =>
-                                                        <MaintenanceRecord readonly={props.readonly} record={record} />
+                                                        <MaintenanceRecord readonly={props.readonly} record={record} setRecord={props.setRecord} ref1={props.ref1} />
                                                     )
                                                 }
                                             </Fragment>
@@ -79,13 +115,16 @@ const Record = (props: { header: string, type: RecordType, className: string, re
                                         () => {
                                             switch (props.type) {
                                                 case RecordType.Repair:
-                                                    return <RepairRecord readonly={props.readonly} />
+                                                    const repair: IRepair = { date: new Date(), comment: "" };
+                                                    return <RepairRecord record={repair} readonly={props.readonly} ref1={props.ref1} ref2={props.ref2} />
 
                                                 case RecordType.Revision:
-                                                    return <RevisionRecord readonly={props.readonly} />
+                                                    const revision: IRevision = { date: new Date(), version: "" };
+                                                    return <RevisionRecord record={revision} readonly={props.readonly} ref1={props.ref1} ref2={props.ref2} />
 
                                                 case RecordType.Maintenance:
-                                                    return <MaintenanceRecord readonly={props.readonly} />
+                                                    const maintenance: IMaintenance = { date: new Date(), items: ["清潔保養", "紅外校正", "機件調整", "功能測試"] };
+                                                    return <MaintenanceRecord record={maintenance} readonly={props.readonly} ref1={props.ref1} />
 
                                                 default: return null;
                                             }
@@ -95,7 +134,7 @@ const Record = (props: { header: string, type: RecordType, className: string, re
                             </Modal.Content>
                             <Modal.Actions>
                                 <Button onClick={() => setNewRecordOpen(false)}>取消</Button>
-                                <Button primary onClick={() => setNewRecordOpen(false)}>確定</Button>
+                                <Button primary onClick={handleClick}>確定</Button>
                             </Modal.Actions>
                         </Modal>
                     </Modal.Actions>
