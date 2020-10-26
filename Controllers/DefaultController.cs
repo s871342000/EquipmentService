@@ -153,23 +153,21 @@ namespace Controllers
         [Route("Login")]
         public bool Login([FromBody]UserInfo userInfo)
         {
-            string uid = Crypto.Encrypto(userInfo.Uid);
-            string pwd = Crypto.Encrypto($"{userInfo.Uid}roy{userInfo.Pwd}");
+            // string uid = Crypto.Encrypto(userInfo.Uid);
+            // string pwd = Crypto.Encrypto($"{userInfo.Uid}roy{userInfo.Pwd}");
 
-            if(userInfo.Uid == "admin" && userInfo.Pwd == "admin")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return _deviceService.CheckLogin(userInfo.Uid, userInfo.Pwd);
         }
 
         [HttpPost]
         [Route("Create/{uid}/{pwd}")]
         public Status Create(string uid, string pwd, [FromBody]DeviceDetail data)
         {
+            if(!_deviceService.CheckLogin(uid, pwd))
+            {
+                return null;
+            }
+
             DeviceDetail _device = _deviceService.GetBySn(data.SN);
 
             Status status = new Status();
@@ -191,6 +189,11 @@ namespace Controllers
         [Route("Update/{uid}/{pwd}")]
         public Status Update(string uid, string pwd, [FromBody]DeviceDetail data)
         {
+            if(!_deviceService.CheckLogin(uid, pwd))
+            {
+                return null;
+            }
+
             DeviceDetail _device = _deviceService.GetBySn(data.SN);
             data.Id = _device.Id;
 
@@ -214,7 +217,10 @@ namespace Controllers
         [Route("Delete/{uid}/{pwd}/{sn}")]
         public void Delete(string uid, string pwd, string sn)
         {
-            _deviceService.Remove(sn);
+            if(_deviceService.CheckLogin(uid, pwd))
+            {
+                _deviceService.Remove(sn);
+            }
         }
     }
 }

@@ -74,22 +74,6 @@ export const DeviceDetail = forwardRef((props: IProps, ref: any) => {
 
         return response.json();
       }).then((result) => {
-        // setState({
-        //   customer: result.customer,
-        //   sn: result.sn,
-        //   model: result.model,
-        //   version: result.version,
-        //   price: result.price,
-
-        //   purchaseDate: new Date(result.purchaseDate),
-        //   warrantyStart: new Date(result.warrantyStartDate),
-        //   warrantyEnd: new Date(result.warrantyEndDate),
-        //   leaseStart: new Date(result.leaseStartDate),
-        //   leaseEnd: new Date(result.leaseEndDate),
-        //   maintenanceStart: new Date(result.maintenanceStartDate),
-        //   maintenanceEnd: new Date(result.maintenanceEndDate)
-        // });
-
         setCustomer(result.customer);
         setSN(result.sn);
         setModel(result.model);
@@ -121,7 +105,9 @@ export const DeviceDetail = forwardRef((props: IProps, ref: any) => {
       }
 
       const fetchData = async () => {
-        const response = await fetch(TargetUrl("Default", `${method}/${userInfo.uid}/${userInfo.pwd}`), {
+        const uid = localStorage.getItem("uid");
+        const pwd = localStorage.getItem("pwd");
+        const response = await fetch(TargetUrl("Default", `${method}/${uid}/${pwd}`), {
           method: "POST",
           headers: new Headers({
             'Content-Type': 'application/json',

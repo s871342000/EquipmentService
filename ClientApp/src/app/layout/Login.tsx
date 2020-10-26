@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Button, Form, Segment } from 'semantic-ui-react'
 import { TargetUrl } from '../models/DirectUrl';
 import { Costumers } from './Customers';
@@ -20,15 +20,14 @@ export const Login = () => {
 
 
   const userInfo = useSelector(s => s) as IUserInfo;
-  useEffect(() => {
-    if (userInfo.token) {
+  useLayoutEffect(() => {
+    if (localStorage.getItem("login") === "true") {
       // const decode = jwt.verify(userInfo.token, "equipment-service");
       setLogin(true);
     }
   }, []);
 
-
-  let loginCheck = () => {
+  const loginCheck = () => {
     fetch(TargetUrl("Default", "Login"), {
       method: "POST",
       body: JSON.stringify({
@@ -51,8 +50,10 @@ export const Login = () => {
 
         const payload = { uid: uid, pwd: pwd };
         const token = jwt.sign(payload, SECRET, { expiresIn: '60s' });
-        // console.log("Token: " + token);
         dispatch({ type: "SET_TOKEN", value: token });
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("pwd", pwd);
+        localStorage.setItem("login", "true");
       }
       else {
         alert("帳號或密碼錯誤");
@@ -64,30 +65,11 @@ export const Login = () => {
 
   const refresh = useRef<any>();
 
-  // const [customers, setCustomers] = useState<ICustomer[]>([]);
-  // const getCustomers = () => {
-  //   fetch(TargetUrl("Default", "Customers"), {
-  //     method: "GET",
-  //     headers: new Headers({
-  //       'Content-Type': 'application/json',
-  //     })
-  //   }).then((response) => {
-  //     if (!response.ok) {
-  //       throw new Error(response.statusText);
-  //     }
-  //     return response.json();
-  //   }).then((result) => {
-  //     setCustomers(result);
-  //   }).catch((error) => {
-  //     console.error(error);
-  //   });
-  // }
-
   return (
     <Fragment>
       <NavBar refresh={refresh} login={login} setLogin={value => setLogin(value)} />
       {login ?
-        <Costumers ref={refresh} login={login} /* customers={customers} */ /> :
+        <Costumers ref={refresh} login={login} /> :
         <div className="container">
           <div className="row vh-100 align-items-center">
             <div className="col-auto mx-auto">

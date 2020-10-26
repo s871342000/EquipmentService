@@ -29,7 +29,9 @@ export const DeviceInfo = (props: { refresh: any; login: boolean, sn: string, mo
   const userInfo = useSelector(s => s) as IUserInfo;
 
   const deleteDevice = () => {
-    fetch(TargetUrl("Default", `Delete/${userInfo.uid}/${userInfo.pwd}/${props.sn}`), {
+    const uid = localStorage.getItem("uid");
+    const pwd = localStorage.getItem("pwd");
+    fetch(TargetUrl("Default", `Delete/${uid}/${pwd}/${props.sn}`), {
       method: "DELETE",
       headers: new Headers({
         'Content-Type': 'application/json',

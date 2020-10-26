@@ -23,6 +23,13 @@ const NavBar = (props: props) => {
     }
   }
 
+  const logout = () => {
+    props.setLogin(false);
+    localStorage.removeItem("login");
+    localStorage.removeItem("uid");
+    localStorage.removeItem("pwd");
+  }
+
   return (
     <Menu fixed="top" inverted>
       <Menu.Item header>裝置保養管理</Menu.Item>
@@ -47,7 +54,7 @@ const NavBar = (props: props) => {
             </Menu.Item>
 
             <Menu.Item position="right">
-              <Button positive content="登出" onClick={() => props.setLogin(false)} />
+              <Button positive content="登出" onClick={logout} />
             </Menu.Item>
           </Fragment>
         ) : null

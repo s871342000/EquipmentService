@@ -17,6 +17,16 @@ namespace Model
             _collection = db.GetCollection<DeviceDetail>(settings.CollectionName);
         }
 
+        public bool CheckLogin(string uid, string pwd){
+            if(uid == "admin" && pwd == "@dmIn")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public List<DeviceDetail> Get() => _collection.Find(device => true).ToList();
 
         public List<DeviceDetail> GetByCustomer(string customer) => _collection.Find<DeviceDetail>(device => device.Customer == customer).ToList();

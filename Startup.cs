@@ -56,7 +56,7 @@ namespace EquipmentService
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -68,6 +68,8 @@ namespace EquipmentService
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+
+            // app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/ClientApp/build" });
 
             app.UseSpa(spa =>
             {

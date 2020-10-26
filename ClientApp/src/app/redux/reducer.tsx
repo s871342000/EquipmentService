@@ -10,7 +10,7 @@ const initialState = {
     token: ""
 }
 
-function counterReducer(state: IUserInfo = initialState, action: { type: string; value: any }) {
+function reducer(state: IUserInfo = initialState, action: { type: string; value: any }) {
     switch (action.type) {
         case 'SET_UID':
             return { ...state, uid: action.value }
@@ -23,4 +23,4 @@ function counterReducer(state: IUserInfo = initialState, action: { type: string;
     }
 }
 
-export default counterReducer;
+export default reducer;

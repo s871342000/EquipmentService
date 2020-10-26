@@ -36,7 +36,7 @@ const Record = (props: IProps) => {
                 obj = { date: props.ref1.current.value, version: props.ref2.current.value }
                 break;
         }
-
+        console.log(obj.date);
         return obj;
     }
 
