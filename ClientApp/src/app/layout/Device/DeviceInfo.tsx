@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
+import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
 import { useSelector } from "react-redux";
 import { Button, Modal } from "semantic-ui-react";
 import { TargetUrl } from "../../models/DirectUrl";
@@ -58,16 +59,32 @@ export const DeviceInfo = (props: { refresh: any; login: boolean, sn: string, mo
     props.refresh.current.doRefresh();
   }
 
+  const downloadQR = (id: string) => {
+    const canvas = document.getElementById(id) as HTMLCanvasElement;
+    if (canvas) {
+      const pngUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+      let downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = `${id}.png`;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    }
+  }
+
   return (
     <div className="container-fluid m-2">
       <div className="row align-items-center">
         <Modal
+          className="text-center"
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
           trigger={<Button primary content="QR Code" onClick={() => setOpen(true)} className="m-1" />}
         >
-          <QRCode className="d-flex" value={TargetUrl("", props.sn)} />
+
+          <QRCode id={props.sn} className="d-flex" value={TargetUrl("", props.sn)} />
+          <a href="#" onClick={() => downloadQR(props.sn)}> 下載 </a>
         </Modal>
 
         <Modal

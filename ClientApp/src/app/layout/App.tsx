@@ -6,9 +6,9 @@ import QRCodeContent from "../layout/QRCodeContent"
 export default class App extends Component {
   render() {
     return (
-      <BrowserRouter basename="/">
-        <Route exact path="/equipment-service" component={Home} />
-        <Route path="/equipment-service/:sn" render={props => <QRCodeContent sn={props.match.params.sn} />} />
+      <BrowserRouter>
+        <Route exact path="/" component={Home} />
+        <Route path="/:sn" render={props => <QRCodeContent sn={props.match.params.sn} />} />
       </BrowserRouter>
     );
   }

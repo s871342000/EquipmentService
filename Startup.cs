@@ -26,10 +26,10 @@ namespace EquipmentService
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
+            // services.AddSpaStaticFiles(configuration =>
+            // {
+            //     configuration.RootPath = "ClientApp/build";
+            // });
 
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
 
@@ -40,6 +40,16 @@ namespace EquipmentService
 
             // 變數名稱開頭變大寫
             // services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
+
+            // services.AddSpaStaticFiles(configuration =>
+            // {
+            //     configuration.RootPath = "ClientApp/build";
+            // });
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
